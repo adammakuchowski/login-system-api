@@ -13,7 +13,7 @@ export const getUserByUserName = async (username: string) => {
 
 export const createUser = async (username: string, hashedPassword: string) => {
   try {
-    const newUser = new User({username, hashedPassword: hashedPassword})
+    const newUser = new User({username, hashedPassword})
     await newUser.save()
   } catch (error) {
     throw new Error('An error occurred during user registration.')
