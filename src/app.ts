@@ -3,7 +3,7 @@ import morgan from 'morgan'
 import helmet from 'helmet'
 import cors from 'cors'
 import errorHandler from './middlewares/errorHandler'
-import sampleRouter from './api/routes/sampleRouter'
+import userRouter from './api/routes/userRouter'
 import corsOptions from './corsConfig'
 import notFound from './middlewares/notFoundHandler'
 
@@ -28,7 +28,7 @@ const createApp = () => {
     res.send('Every day you must ask yourself: Did you do enough?')
   })
 
-  app.use('/sampleRouter', sampleRouter)
+  app.use('/user', userRouter)
 
   setupErrorHandling(app)
 

@@ -10,9 +10,14 @@ interface DatabaseConfig {
   name: string;
 }
 
+interface AuthorizationConfig {
+  secretKey: string;
+}
+
 interface AppConfig {
   port: number;
   database: DatabaseConfig;
+  authorization: AuthorizationConfig;
 }
 
 const config: AppConfig = {
@@ -23,6 +28,9 @@ const config: AppConfig = {
     username: process.env.DB_USERNAME || 'user',
     password: process.env.DB_PASSWORD || 'password',
     name: process.env.DB_NAME || 'my_database'
+  },
+  authorization: {
+    secretKey: process.env.SECRET_KEY || 'secret',
   }
 }
 
