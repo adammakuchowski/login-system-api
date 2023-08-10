@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import User from '../../db/models/User'
 
-export const getUserByName = async (username: string) => {
+export const getUserByUserName = async (username: string) => {
   try {
     const existingUser = await User.findOne({username})
 
