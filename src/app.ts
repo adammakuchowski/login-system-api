@@ -21,6 +21,7 @@ const setupErrorHandling = (app: Application) => {
 
 const createApp = () => {
   const app = express()
+  // TODO: add pino or winston
 
   setupMiddlewares(app)
 
