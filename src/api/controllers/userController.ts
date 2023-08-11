@@ -1,7 +1,7 @@
 import {Request, Response} from 'express'
 import {
   createUser,
-  getUserByUserName,
+  getUserByEmail,
   hashPassword,
 } from '../services/userService'
 
@@ -10,9 +10,9 @@ export const registerUser = async (
   res: Response,
 ) => {
   try {
-    const {username, password} = req.body
+    const {email, password} = req.body
 
-    const existingUser = await getUserByUserName(username)
+    const existingUser = await getUserByEmail(email)
     if (existingUser) {
       return res
         .status(400)
@@ -20,7 +20,7 @@ export const registerUser = async (
     }
 
     const hashedPassword = await hashPassword(password, 10)
-    await createUser(username, hashedPassword)
+    await createUser(email, hashedPassword)
 
     res.status(201).json({message: 'The user has been registered.'})
   } catch (error) {
