@@ -1,4 +1,4 @@
-export interface SampleData {
-  id: string;
-  name: string;
+export interface User {
+  email: string;
+  password: string;
 }
