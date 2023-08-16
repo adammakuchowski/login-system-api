@@ -1,5 +1,6 @@
 import mongoose, {ConnectOptions} from 'mongoose'
 import config from '../config'
+import {logger} from '../app'
 
 const {database: {host, port, name}} = config 
 const DB_URL = `mongodb://${host}:${port}/${name}`
@@ -9,8 +10,8 @@ export const connectDB = async (): Promise<void> => {
 
   try {
     await mongoose.connect(DB_URL)
-    console.log('Connected to MongoDB')
+    logger.info('Connected to MongoDB')
   } catch (error: any) {
-    console.error('Error connecting to MongoDB:', error.message)
+    logger.error('Error connecting to MongoDB:', error.message)
   }
 }

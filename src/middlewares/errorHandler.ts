@@ -1,4 +1,5 @@
 import {NextFunction, Request, Response} from 'express'
+import {logger} from '../app'
 import {ErrorResponse} from '../interfaces/errorResponse'
 
 const errorHandler = (
@@ -15,7 +16,7 @@ const errorHandler = (
     stack: err.stack,
   }
 
-  console.error('Error: ', responseBody)
+  logger.error('Error: ', responseBody)
   res.json(responseBody)
 }
 

@@ -1,11 +1,19 @@
-import express, {Application, Request, Response} from 'express'
+import express, {
+  Application,
+  Request,
+  Response,
+} from 'express'
 import morgan from 'morgan'
 import helmet from 'helmet'
 import cors from 'cors'
+import winston from 'winston'
+import notFound from './middlewares/notFoundHandler'
 import errorHandler from './middlewares/errorHandler'
 import userRouter from './api/routes/userRouter'
 import corsOptions from './corsConfig'
-import notFound from './middlewares/notFoundHandler'
+import loggerConfig from './winstonConfig'
+
+export const logger = winston.createLogger(loggerConfig)
 
 const setupMiddlewares = (app: Application) => {
   app.use(morgan('dev'))
@@ -21,7 +29,6 @@ const setupErrorHandling = (app: Application) => {
 
 const createApp = () => {
   const app = express()
-  // TODO: add pino or winston
 
   setupMiddlewares(app)
 
