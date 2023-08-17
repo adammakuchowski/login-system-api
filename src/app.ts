@@ -10,8 +10,8 @@ import winston from 'winston'
 import notFound from './middlewares/notFoundHandler'
 import errorHandler from './middlewares/errorHandler'
 import userRouter from './api/routes/userRouter'
-import corsOptions from './corsConfig'
-import loggerConfig from './winstonConfig'
+import corsOptions from './configs/corsConfig'
+import loggerConfig from './configs/winstonConfig'
 
 export const logger = winston.createLogger(loggerConfig)
 
