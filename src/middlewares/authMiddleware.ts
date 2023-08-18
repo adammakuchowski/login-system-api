@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken'
-import config from '../config'
+import appConfig from '../configs/appConfig'
 
 
 const authenticateToken = (req: any, res: any, next: any) => {
-  const {authorization: {secretKey}} = config 
+  const {authorization: {secretKey}} = appConfig 
 }
 
 export default {
