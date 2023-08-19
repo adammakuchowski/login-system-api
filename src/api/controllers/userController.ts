@@ -1,4 +1,5 @@
 import {Request, Response} from 'express'
+import {logger} from '../../app'
 import {
   createUser,
   getUserByEmail,
@@ -14,9 +15,11 @@ export const registerUser = async (
 
     const existingUser = await getUserByEmail(email)
     if (existingUser) {
+      logger.warn(`[registerUser]: user with this email ${email} already exists`)
+
       return res
         .status(400)
-        .json({message: 'A user with this name already exists.'})
+        .json({message: 'A user with this email already exists.'})
     }
 
     const hashedPassword = await hashPassword(password, 10)
