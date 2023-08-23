@@ -1,7 +1,9 @@
 import {Request, Response} from 'express'
 import {logger} from '../../app'
 import {
+  comparePassword,
   createUser,
+  createWebToken,
   getUserByEmail,
   hashPassword,
 } from '../services/userService'
@@ -25,9 +27,13 @@ export const registerUser = async (
     const hashedPassword = await hashPassword(password, 10)
     await createUser(email, hashedPassword)
 
-    res.status(201).json({message: 'The user has been registered.'})
+    res
+      .status(201)
+      .json({message: 'The user has been registered.'})
   } catch (error) {
-    res.status(500).json({error: 'A server error occurred during user registration.'})
+    res
+      .status(500)
+      .json({error: 'A server error occurred during user registration.'})
   }
 }
 
@@ -36,8 +42,34 @@ export const loginUser = async (
   res: Response,
 ) => {
   try {
+    const {email, password} = req.body
 
+    const user = await getUserByEmail(email)
+    if (!user) {
+      logger.warn(`[loginUser]: user with this email ${email} does not exists`)
+
+      return res
+        .status(401)
+        .json({message: 'Invalid login details.'})
+    }
+
+    const passwordMatch = await comparePassword(password, user.password)
+    if (!passwordMatch) {
+      logger.warn(`[loginUser]: incorrect password`)
+
+      return res
+        .status(401)
+        .json({message: 'Invalid login details.'})
+    }
+
+    const token = await createWebToken(user.email)
+
+    res
+      .status(200)
+      .json({token})
   } catch (error: any) {
-
+    res
+      .status(500)
+      .json({error: 'A server error occurred during user login.'})
   }
 }

@@ -7,6 +7,6 @@ const router = express.Router()
 
 router.post('/register', validationRequest(userSchema), registerUser)
 
-router.post('/login', loginUser)
+router.post('/login', validationRequest(userSchema), loginUser)
 
 export default router
