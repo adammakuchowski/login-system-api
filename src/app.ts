@@ -1,5 +1,4 @@
 import express, {
-  Application,
   Request,
   Response,
 } from 'express'
@@ -12,35 +11,25 @@ import errorHandler from './middlewares/errorHandler'
 import userRouter from './api/routes/userRouter'
 import corsOptions from './configs/corsConfig'
 import loggerConfig from './configs/winstonConfig'
+import {connectDB} from './db/db'
 
 export const logger = winston.createLogger(loggerConfig)
 
-const setupMiddlewares = (app: Application) => {
-  app.use(morgan('dev'))
-  app.use(helmet())
-  app.use(cors(corsOptions))
-  app.use(express.json())
-}
+connectDB()
+const app = express()
 
-const setupErrorHandling = (app: Application) => {
-  app.use(notFound)
-  app.use(errorHandler)
-}
+app.use(morgan('dev'))
+app.use(helmet())
+app.use(cors(corsOptions))
+app.use(express.json())
 
-const createApp = () => {
-  const app = express()
+app.get('/', (req: Request, res: Response): void => {
+  res.send('Every day you must ask yourself: Did you do enough?')
+})
 
-  setupMiddlewares(app)
+app.use('/user', userRouter)
 
-  app.get('/', (req: Request, res: Response): void => {
-    res.send('Every day you must ask yourself: Did you do enough?')
-  })
+app.use(notFound)
+app.use(errorHandler)
 
-  app.use('/user', userRouter)
-
-  setupErrorHandling(app)
-
-  return app
-}
-
-export default createApp
+export default app
