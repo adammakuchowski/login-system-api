@@ -1,4 +1,5 @@
 import {Request, Response} from 'express'
+
 import {logger} from '../../app'
 import {
   comparePassword,
@@ -24,8 +25,8 @@ export const registerUser = async (
         .json({message: 'A user with this email already exists.'})
     }
 
-    const hashedPassword = await hashPassword(password, 10)
-    await createUser(email, hashedPassword)
+    const hash = await hashPassword(password)
+    await createUser(email, hash)
 
     res
       .status(201)

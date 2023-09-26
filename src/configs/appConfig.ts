@@ -12,6 +12,7 @@ interface DatabaseConfig {
 
 interface AuthorizationConfig {
   secretKey: string;
+  saltRounds: number;
 }
 
 interface AppConfig {
@@ -21,16 +22,17 @@ interface AppConfig {
 }
 
 const appConfig: AppConfig = {
-  port: process.env.PORT ? Number(process.env.PORT) : 3000,
+  port: Number(process.env.PORT) || 3000,
   database: {
     host: process.env.DB_HOST || '127.0.0.1',
-    port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 27017,
+    port: Number(process.env.DB_PORT) || 27017,
     username: process.env.DB_USERNAME || 'user',
     password: process.env.DB_PASSWORD || 'password',
     name: process.env.DB_NAME || 'my_database'
   },
   authorization: {
     secretKey: process.env.SECRET_KEY || 'secret',
+    saltRounds: Number(process.env.SALT_ROUNDS) || 10,
   }
 }
 
