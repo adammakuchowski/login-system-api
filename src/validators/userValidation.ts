@@ -1,4 +1,5 @@
 import Joi from 'joi'
+
 import {User} from '../interfaces/types'
 
 export const userSchema = Joi.object<User>({
