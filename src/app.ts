@@ -8,7 +8,7 @@ import cors from 'cors'
 import winston from 'winston'
 import notFound from './middlewares/notFoundHandler'
 import errorHandler from './middlewares/errorHandler'
-import userRouter from './api/routes/userRouter'
+import authRouter from './api/routes/authRouter'
 import corsOptions from './configs/corsConfig'
 import loggerConfig from './configs/winstonConfig'
 import {connectDB} from './db/db'
@@ -27,7 +27,7 @@ app.get('/', (req: Request, res: Response): void => {
   res.send('Every day you must ask yourself: Did you do enough?')
 })
 
-app.use('/user', userRouter)
+app.use('/auth', authRouter)
 
 app.use(notFound)
 app.use(errorHandler)

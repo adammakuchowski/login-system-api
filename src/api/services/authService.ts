@@ -48,11 +48,11 @@ export const comparePassword = async (password: string, userPassword: string) =>
   }
 }
 
-export const createWebToken = async (email: string) => {
+export const createWebToken = async (id: string) => {
   try {
     const {authorization: {secretKey}} = appConfig
 
-    return jwt.sign({email}, secretKey, {expiresIn: '1h'})
+    return jwt.sign({id}, secretKey, {expiresIn: '1h'})
   } catch (error: any) {
     logger.error(`[createWebToken]: ${error.message}`)
     throw new Error('An error occurred while create the json web tekon.')
