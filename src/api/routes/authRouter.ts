@@ -1,7 +1,6 @@
 import express from 'express'
-import passport from 'passport'
 
-import {registerUser, loginUser} from '../controllers/userController'
+import {registerUser, loginUser} from '../controllers/authController'
 import {validationRequest} from '../../middlewares/validationRequest'
 import {userSchema} from '../../validators/userValidation'
 
@@ -17,7 +16,6 @@ router.post(
 router.post(
   '/login',
   validationRequest(userSchema),
-  passport.authenticate('local', {session: false}),
   loginUser,
 )
 

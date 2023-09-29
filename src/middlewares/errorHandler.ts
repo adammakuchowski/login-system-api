@@ -1,4 +1,5 @@
 import {NextFunction, Request, Response} from 'express'
+
 import {logger} from '../app'
 import {ErrorResponse} from '../interfaces/errorResponse'
 

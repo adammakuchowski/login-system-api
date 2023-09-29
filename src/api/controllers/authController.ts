@@ -7,7 +7,7 @@ import {
   createWebToken,
   getUserByEmail,
   hashPassword,
-} from '../services/userService'
+} from '../services/authService'
 
 export const registerUser = async (
   req: Request,
@@ -30,7 +30,7 @@ export const registerUser = async (
 
     res
       .status(201)
-      .json({message: 'The user has been registered.'})
+      .json({message: 'The user has been successfully registered.'})
   } catch (error) {
     res
       .status(500)
@@ -63,7 +63,7 @@ export const loginUser = async (
         .json({message: 'Invalid login details.'})
     }
 
-    const token = await createWebToken(user.email)
+    const token = await createWebToken(user.id)
 
     res
       .status(200)
