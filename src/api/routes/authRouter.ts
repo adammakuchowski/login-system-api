@@ -1,7 +1,8 @@
 import express from 'express'
 
-import {registerUser, loginUser} from '../controllers/authController'
+import {registerUser, loginUser, test} from '../controllers/authController'
 import {validationRequest} from '../../middlewares/validationRequest'
+import {authenticateToken} from '../../middlewares/auth'
 import {userSchema} from '../../validators/userValidation'
 
 
@@ -17,6 +18,12 @@ router.post(
   '/login',
   validationRequest(userSchema),
   loginUser,
+)
+
+router.get(
+  '/test',
+  authenticateToken,
+  test,
 )
 
 export default router

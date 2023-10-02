@@ -63,7 +63,8 @@ export const loginUser = async (
         .json({message: 'Invalid login details.'})
     }
 
-    const token = await createWebToken(user.id)
+    const {id} = user
+    const token = await createWebToken(id)
 
     res
       .status(200)
@@ -73,4 +74,11 @@ export const loginUser = async (
       .status(500)
       .json({error: 'A server error occurred during user login.'})
   }
+}
+
+export const test = (
+  req: Request,
+  res: Response,
+) => {
+  res.status(500).json({test: 'test'})
 }

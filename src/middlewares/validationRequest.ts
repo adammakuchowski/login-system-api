@@ -1,8 +1,8 @@
-import {Request, Response} from 'express'
+import {Request, Response, NextFunction} from 'express'
 import {logger} from '../app'
 
 export const validationRequest = (schema: any) => {
-  return (req: Request, res: Response, next: any) => {
+  return (req: Request, res: Response, next: NextFunction) => {
     const result = schema.validate(req.body)
 
     if (!req.body) {
