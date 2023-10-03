@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+
 import {User} from '../../interfaces/types'
 
 const userSchema = new mongoose.Schema<User>({

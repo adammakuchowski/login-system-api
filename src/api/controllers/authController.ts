@@ -75,10 +75,3 @@ export const loginUser = async (
       .json({error: 'A server error occurred during user login.'})
   }
 }
-
-export const test = (
-  req: Request,
-  res: Response,
-) => {
-  res.status(500).json({test: 'test'})
-}
