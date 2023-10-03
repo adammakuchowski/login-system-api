@@ -2,6 +2,7 @@ import express from 'express'
 
 import {registerUser, loginUser} from '../controllers/authController'
 import {validationRequest} from '../../middlewares/validationRequest'
+import {authenticateToken} from '../../middlewares/auth'
 import {userSchema} from '../../validators/userValidation'
 
 
