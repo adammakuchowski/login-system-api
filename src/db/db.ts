@@ -1,4 +1,5 @@
 import mongoose, {ConnectOptions} from 'mongoose'
+
 import appConfig from '../configs/appConfig'
 import {logger} from '../app'
 
