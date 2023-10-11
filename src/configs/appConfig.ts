@@ -8,6 +8,7 @@ interface DatabaseConfig {
   username: string;
   password: string;
   name: string;
+  userLimit: number;
 }
 
 interface AuthorizationConfig {
@@ -28,7 +29,8 @@ const appConfig: AppConfig = {
     port: Number(process.env.DB_PORT) || 27017,
     username: process.env.DB_USERNAME || 'user',
     password: process.env.DB_PASSWORD || 'password',
-    name: process.env.DB_NAME || 'my_database'
+    name: process.env.DB_NAME || 'my_database',
+    userLimit: Number(process.env.DB_USER_LIMIT) || 5,
   },
   authorization: {
     secretKey: process.env.SECRET_KEY || 'secret',

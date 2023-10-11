@@ -8,6 +8,9 @@ import {
   getUserByEmail,
   hashPassword,
 } from '../services/authService'
+import {canCreateDocument} from '../../db/mongoUtils'
+import User from '../../db/models/User'
+import appConfig from '../../configs/appConfig'
 
 export const registerUser = async (
   req: Request,
@@ -15,6 +18,14 @@ export const registerUser = async (
 ) => {
   try {
     const {email, password} = req.body
+    const {database: {userLimit}} = appConfig
+
+    const canCreate = await canCreateDocument(User, userLimit)
+    if (!canCreate) {
+      throw new Error('Limit of user documents reached.')
+    }
+    
+    //TODO: Regex to email validation 
 
     const existingUser = await getUserByEmail(email)
     if (existingUser) {
