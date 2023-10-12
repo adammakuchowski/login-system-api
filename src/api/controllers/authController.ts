@@ -24,7 +24,7 @@ export const registerUser = async (
     if (!canCreate) {
       throw new Error('Limit of user documents reached.')
     }
-    
+
     //TODO: Regex to email validation 
 
     const existingUser = await getUserByEmail(email)
@@ -85,4 +85,15 @@ export const loginUser = async (
       .status(500)
       .json({error: 'A server error occurred during user login.'})
   }
+}
+
+export const verifyUser = (
+  req: Request,
+  res: Response,
+) => {
+  logger.info('User verified')
+
+  res.status(200).json({
+    message: 'Token verification successful',
+  })
 }
