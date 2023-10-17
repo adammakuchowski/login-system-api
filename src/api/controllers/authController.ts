@@ -91,7 +91,7 @@ export const verifyUser = (
   req: Request,
   res: Response,
 ) => {
-  logger.info('User verified')
+  logger.info('[verifyUser]: user verified')
 
   res.status(200).json({
     message: 'Token verification successful',
