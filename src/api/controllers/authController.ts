@@ -1,4 +1,4 @@
-import {Request, Response} from 'express'
+import {NextFunction, Request, Response} from 'express'
 
 import {logger} from '../../app'
 import {
@@ -15,6 +15,7 @@ import appConfig from '../../configs/appConfig'
 export const registerUser = async (
   req: Request,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const {email, password} = req.body
@@ -43,15 +44,16 @@ export const registerUser = async (
       .status(201)
       .json({message: 'The user has been successfully registered.'})
   } catch (error) {
-    res
-      .status(500)
-      .json({error: 'A server error occurred during user registration.'})
+    logger.error('A server error occurred during user registration.')
+
+    next(error)
   }
 }
 
 export const loginUser = async (
   req: Request,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const {email, password} = req.body
@@ -81,19 +83,25 @@ export const loginUser = async (
       .status(200)
       .json({token})
   } catch (error: any) {
-    res
-      .status(500)
-      .json({error: 'A server error occurred during user login.'})
+    logger.error('A server error occurred during user login.')
+
+    next(error)
   }
 }
 
 export const verifyUser = (
   req: Request,
   res: Response,
+  next: NextFunction,
 ) => {
-  logger.info('[verifyUser]: user verified')
+  try {
+    logger.info('[verifyUser]: user verified')
 
-  res.status(200).json({
-    message: 'Token verification successful',
-  })
+    res.status(200).json({
+      message: 'Token verification successful',
+    })
+
+  } catch (error: any) {
+    next(error)
+  }
 }

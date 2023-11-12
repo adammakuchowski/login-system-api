@@ -10,10 +10,12 @@ import winston from 'winston'
 import notFound from './middlewares/notFoundHandler'
 import errorHandler from './middlewares/errorHandler'
 import authRouter from './api/routes/authRouter'
+import appConfig from './configs/appConfig'
 import corsOptions from './configs/corsConfig'
 import loggerConfig from './configs/winstonConfig'
 import {connectDB} from './db/db'
 
+const {port} = appConfig
 export const logger = winston.createLogger(loggerConfig)
 
 connectDB()
@@ -33,4 +35,6 @@ app.use('/auth', authRouter)
 app.use(notFound)
 app.use(errorHandler)
 
-export default app
+app.listen(port, () => {
+  logger.info(`API is listening on port: ${port}`)
+})
