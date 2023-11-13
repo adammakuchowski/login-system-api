@@ -97,10 +97,11 @@ export const verifyUser = (
   try {
     logger.info('[verifyUser]: user verified')
 
-    res.status(200).json({
-      message: 'Token verification successful',
-    })
-
+    res
+      .status(200)
+      .json({
+        message: 'Token verification successful',
+      })
   } catch (error: any) {
     next(error)
   }
