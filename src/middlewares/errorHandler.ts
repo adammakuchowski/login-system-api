@@ -10,15 +10,20 @@ const errorHandler = (
   next: NextFunction
 ) => {
   const statusCode = res.statusCode !== 200 ? res.statusCode : 500
-  res.status(statusCode)
+  const {method, originalUrl} = req
 
   const responseBody = {
+    method,
+    originalUrl,
     message: err.message,
     stack: err.stack,
   }
 
-  logger.error('Error: ', responseBody)
-  res.json(responseBody)
+  logger.error(responseBody)
+  
+  res
+    .status(statusCode)
+    .json(responseBody)
 }
 
 export default errorHandler
