@@ -2,12 +2,12 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
 import {logger} from '../../app'
-import User from '../../db/models/User'
+import UserModel, {UserDocument} from '../../db/models/User'
 import appConfig from '../../configs/appConfig'
 
-export const getUserByEmail = async (email: string) => {
+export const getUserByEmail = async (email: string): Promise<UserDocument | null> => {
   try {
-    const existingUser = await User.findOne({email})
+    const existingUser = await UserModel.findOne({email})
 
     return existingUser
   } catch (error: any) {
@@ -16,9 +16,9 @@ export const getUserByEmail = async (email: string) => {
   }
 }
 
-export const createUser = async (email: string, hash: string) => {
+export const createUser = async (email: string, hash: string): Promise<void> => {
   try {
-    const newUser = new User({email, password: hash})
+    const newUser = new UserModel({email, password: hash})
     await newUser.save()
 
     logger.info(`[createUser]: user with email ${email} created`)
@@ -28,27 +28,31 @@ export const createUser = async (email: string, hash: string) => {
   }
 }
 
-export const hashPassword = async (password: string) => {
+export const hashPassword = async (password: string): Promise<string> => {
   try {
     const {authorization: {saltRounds}} = appConfig
 
-    return bcrypt.hash(password, saltRounds)
+    const hashedPassword = await bcrypt.hash(password, saltRounds)
+
+    return hashedPassword
   } catch (error: any) {
     logger.error(`[hashPassword]: ${error.message}`)
     throw new Error('An error occurred while hashing the password.')
   }
 }
 
-export const comparePassword = async (password: string, userPassword: string) => {
+export const comparePassword = async (password: string, userPassword: string): Promise<boolean> => {
   try {
-    return bcrypt.compare(password, userPassword)
+    const compareResulat = await bcrypt.compare(password, userPassword)
+
+    return compareResulat
   } catch (error: any) {
     logger.error(`[comparePassword]: ${error.message}`)
     throw new Error('An error occurred while compare the user password.')
   }
 }
 
-export const createWebToken = async (id: string) => {
+export const createWebToken = async (id: string): Promise<string> => {
   try {
     const {authorization: {secretKey}} = appConfig
 

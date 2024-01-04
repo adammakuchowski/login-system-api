@@ -1,6 +1,6 @@
 import express, {
   Request,
-  Response,
+  Response
 } from 'express'
 import morgan from 'morgan'
 import helmet from 'helmet'
@@ -38,3 +38,5 @@ app.use(errorHandler)
 app.listen(port, () => {
   logger.info(`API is listening on port: ${port}`)
 })
+
+export default app

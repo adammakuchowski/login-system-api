@@ -9,9 +9,9 @@ interface CorsOptions {
 const corsOptions: CorsOptions = {
   origin: ['http://localhost:5173'],
   optionsSuccessStatus: 200,
-  allowedHeaders: ['Authorization', 'Content-Type'], 
+  allowedHeaders: ['Authorization', 'Content-Type'],
   methods: 'GET,POST,PUT,DELETE',
-  credentials: true,
+  credentials: true
 }
 
 export default corsOptions
