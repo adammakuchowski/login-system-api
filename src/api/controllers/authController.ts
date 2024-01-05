@@ -6,19 +6,20 @@ import {
   createUser,
   createWebToken,
   getUserByEmail,
-  hashPassword,
+  hashPassword
 } from '../services/authService'
 import {canCreateDocument} from '../../db/mongoUtils'
 import User from '../../db/models/User'
 import appConfig from '../../configs/appConfig'
+import {UserPros} from '../../interfaces/types'
 
 export const registerUser = async (
   req: Request,
   res: Response,
-  next: NextFunction,
-) => {
+  next: NextFunction
+): Promise<void> => {
   try {
-    const {email, password} = req.body
+    const {email, password}: UserPros = req.body
     const {database: {userLimit}} = appConfig
 
     const canCreate = await canCreateDocument(User, userLimit)
@@ -26,13 +27,13 @@ export const registerUser = async (
       throw new Error('Limit of user documents reached.')
     }
 
-    //TODO: Regex to email validation 
+    // TODO: Regex to email validation
 
     const existingUser = await getUserByEmail(email)
     if (existingUser) {
       logger.warn(`[registerUser]: user with this email ${email} already exists`)
 
-      return res
+      res
         .status(400)
         .json({message: 'A user with this email already exists.'})
     }
@@ -53,31 +54,35 @@ export const registerUser = async (
 export const loginUser = async (
   req: Request,
   res: Response,
-  next: NextFunction,
-) => {
+  next: NextFunction
+): Promise<void> => {
   try {
-    const {email, password} = req.body
+    const {email, password}: UserPros = req.body
 
     const user = await getUserByEmail(email)
     if (!user) {
       logger.warn(`[loginUser]: user with this email ${email} does not exists`)
 
-      return res
+      res
         .status(401)
         .json({message: 'Invalid login details.'})
+
+      return
     }
 
     const passwordMatch = await comparePassword(password, user.password)
     if (!passwordMatch) {
-      logger.warn(`[loginUser]: incorrect password`)
+      logger.warn('[loginUser]: incorrect password')
 
-      return res
+      res
         .status(401)
         .json({message: 'Invalid login details.'})
+
+      return
     }
 
-    const {id} = user
-    const token = await createWebToken(id)
+    const {_id} = user
+    const token = await createWebToken(_id as string)
 
     res
       .status(200)
@@ -92,15 +97,15 @@ export const loginUser = async (
 export const verifyUser = (
   req: Request,
   res: Response,
-  next: NextFunction,
-) => {
+  next: NextFunction
+): void => {
   try {
     logger.info('[verifyUser]: user verified')
 
     res
       .status(200)
       .json({
-        message: 'Token verification successful',
+        message: 'Token verification successful'
       })
   } catch (error: any) {
     next(error)

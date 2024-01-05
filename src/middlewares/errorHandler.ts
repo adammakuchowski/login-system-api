@@ -8,7 +8,7 @@ const errorHandler = (
   req: Request,
   res: Response<ErrorResponse>,
   next: NextFunction
-) => {
+): void => {
   const statusCode = res.statusCode !== 200 ? res.statusCode : 500
   const {method, originalUrl} = req
 
@@ -16,11 +16,11 @@ const errorHandler = (
     method,
     originalUrl,
     message: err.message,
-    stack: err.stack,
+    stack: err.stack
   }
 
   logger.error(responseBody)
-  
+
   res
     .status(statusCode)
     .json(responseBody)
