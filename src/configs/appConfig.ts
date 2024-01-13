@@ -9,6 +9,7 @@ interface DatabaseConfig {
   password: string;
   name: string;
   userLimit: number;
+  mongoUrl?: string;
 }
 
 interface AuthorizationConfig {
@@ -30,7 +31,8 @@ const appConfig: AppConfig = {
     username: process.env.DB_USERNAME ?? 'user',
     password: process.env.DB_PASSWORD ?? 'password',
     name: process.env.DB_NAME ?? 'my_database',
-    userLimit: Number(process.env.DB_USER_LIMIT) ?? 5
+    userLimit: Number(process.env.DB_USER_LIMIT) ?? 5,
+    mongoUrl: process.env.MONGO_URL
   },
   authorization: {
     secretKey: process.env.SECRET_KEY ?? 'secret',
